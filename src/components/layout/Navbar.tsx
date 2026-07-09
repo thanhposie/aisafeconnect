@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Shield, Menu, X, Video, LogIn, UserPlus } from 'lucide-react';
+import { ROUTES } from '../../types';
 
+const NAV_LINKS = [
+  { to: ROUTES.HOME,    label: 'Home' },
+  { to: ROUTES.CHAT,    label: 'Video Chat' },
+  { to: ROUTES.REPORT,  label: 'Report' },
+  { to: ROUTES.PROFILE, label: 'Profile' },
+] as const;
+
+/**
+ * Navbar — sticky top navigation bar for SafeConnect.
+ * Includes desktop nav, auth buttons, and a responsive mobile menu.
+ */
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-
-  const navLinks = [
-    { to: '/', label: 'Home' },
-    { to: '/chat', label: 'Video Chat' },
-    { to: '/report', label: 'Report' },
-    { to: '/profile', label: 'Profile' },
-  ];
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -20,7 +25,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group" id="navbar-logo">
+          <Link to={ROUTES.HOME} className="flex items-center gap-3 group" id="navbar-logo">
             <div className="relative bg-gradient-to-tr from-violet-600 to-indigo-500 p-2.5 rounded-xl shadow-lg shadow-violet-500/20 text-white transition-transform group-hover:scale-105">
               <Shield className="w-5 h-5 sm:w-6 sm:h-6" />
               <div className="absolute inset-0 rounded-xl bg-violet-400/20 blur-sm" />
@@ -36,8 +41,8 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1" id="navbar-desktop">
-            {navLinks.map((link) => (
+          <nav className="hidden md:flex items-center gap-1" id="navbar-desktop" aria-label="Main navigation">
+            {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -52,10 +57,10 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop Actions */}
+          {/* Desktop Auth Actions */}
           <div className="hidden md:flex items-center gap-3" id="navbar-actions">
             <Link
-              to="/login"
+              to={ROUTES.LOGIN}
               className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-slate-800/50"
               id="navbar-login-btn"
             >
@@ -63,7 +68,7 @@ export default function Navbar() {
               Login
             </Link>
             <Link
-              to="/register"
+              to={ROUTES.REGISTER}
               className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md shadow-violet-600/20 hover:shadow-violet-500/30 hover:-translate-y-0.5"
               id="navbar-register-btn"
             >
@@ -72,23 +77,24 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
             id="navbar-mobile-toggle"
             aria-label="Toggle mobile menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown Menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-800/60 bg-slate-950/95 backdrop-blur-xl animate-fade-in-up">
+        <div className="md:hidden border-t border-slate-800/60 bg-slate-950/95 backdrop-blur-xl animate-fade-in-up" id="navbar-mobile-menu">
           <div className="px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -105,7 +111,7 @@ export default function Navbar() {
             ))}
             <div className="pt-3 border-t border-slate-800/40 flex flex-col gap-2">
               <Link
-                to="/login"
+                to={ROUTES.LOGIN}
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors px-4 py-3 rounded-xl hover:bg-slate-800/50"
               >
@@ -113,7 +119,7 @@ export default function Navbar() {
                 Login
               </Link>
               <Link
-                to="/register"
+                to={ROUTES.REGISTER}
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-semibold text-sm"
               >

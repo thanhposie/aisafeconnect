@@ -1,15 +1,14 @@
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import MainLayout from './components/layout/MainLayout';
 import AppRoutes from './routes';
 
+/**
+ * App — root component.
+ * Wraps all routes inside MainLayout (Navbar + main + Footer).
+ */
 export default function App() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <AppRoutes />
-      </main>
-      <Footer />
-    </div>
+    <MainLayout>
+      <AppRoutes />
+    </MainLayout>
   );
 }

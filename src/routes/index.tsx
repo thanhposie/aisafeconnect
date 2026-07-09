@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { ROUTES } from '../types';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -7,16 +8,20 @@ import Profile from '../pages/Profile';
 import Report from '../pages/Report';
 import NotFound from '../pages/NotFound';
 
+/**
+ * AppRoutes — centralized routing configuration for SafeConnect.
+ * All application routes are declared here.
+ */
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/chat" element={<VideoChat />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/report" element={<Report />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path={ROUTES.HOME}     element={<Home />} />
+      <Route path={ROUTES.LOGIN}    element={<Login />} />
+      <Route path={ROUTES.REGISTER} element={<Register />} />
+      <Route path={ROUTES.CHAT}     element={<VideoChat />} />
+      <Route path={ROUTES.PROFILE}  element={<Profile />} />
+      <Route path={ROUTES.REPORT}   element={<Report />} />
+      <Route path="*"               element={<NotFound />} />
     </Routes>
   );
 }
