@@ -1,10 +1,4 @@
-// Utility functions for SafeConnect
-// Export utilities from this barrel file as they are created
-
-export const formatDate = (date: string | Date): string => {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(date));
-};
+// Utility functions barrel file for SafeConnect
+// Export utility helpers here as they are implemented in future stories
+// e.g. export { formatDuration } from './formatDuration';
+// e.g. export { cn } from './cn'; // classnames helper

@@ -1,6 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Video, ChevronRight, Sparkles } from 'lucide-react';
+import { ROUTES } from '../../types';
 
+const STATS = [
+  { value: '10K+',  label: 'Users Online' },
+  { value: '99.9%', label: 'Safe Chats' },
+  { value: '<1s',   label: 'Match Time' },
+] as const;
+
+/**
+ * Hero — full-width landing hero section with animated background effects,
+ * CTA buttons, and key platform stats.
+ */
 export default function Hero() {
   return (
     <section className="relative overflow-hidden" id="hero">
@@ -10,7 +21,7 @@ export default function Hero() {
       <div className="absolute top-20 -left-20 w-72 h-72 bg-violet-600/10 rounded-full blur-3xl" />
       <div className="absolute top-40 -right-20 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl" />
 
-      {/* Grid Pattern Overlay */}
+      {/* Dot Grid Overlay */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -27,7 +38,7 @@ export default function Hero() {
             <span>AI-Powered Safety • End-to-End Encrypted</span>
           </div>
 
-          {/* Title */}
+          {/* Headline */}
           <h1
             className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-[1.1] animate-fade-in-up"
             style={{ animationDelay: '0.1s' }}
@@ -55,7 +66,7 @@ export default function Hero() {
             style={{ animationDelay: '0.3s' }}
           >
             <Link
-              to="/chat"
+              to={ROUTES.CHAT}
               className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white px-8 py-4 rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-violet-600/25 hover:shadow-violet-500/40 transition-all hover:-translate-y-1 duration-300"
               id="hero-start-chat-btn"
             >
@@ -73,16 +84,12 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Stats */}
+          {/* Stats Row */}
           <div
             className="grid grid-cols-3 gap-4 sm:gap-8 max-w-lg mx-auto pt-10 animate-fade-in-up"
             style={{ animationDelay: '0.4s' }}
           >
-            {[
-              { value: '10K+', label: 'Users Online' },
-              { value: '99.9%', label: 'Safe Chats' },
-              { value: '<1s', label: 'Match Time' },
-            ].map((stat) => (
+            {STATS.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-xl sm:text-2xl font-black text-white">{stat.value}</div>
                 <div className="text-[11px] sm:text-xs text-slate-500 font-medium mt-1">{stat.label}</div>
