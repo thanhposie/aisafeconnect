@@ -1,7 +1,7 @@
 {
-  "name": "flight-booking-system",
+  "name": "safeconnect",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
+    "axios": "^1.9.0",
     "lucide-react": "^1.23.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "react-router-dom": "^7.7.0",
     "tailwindcss": "^4.3.2"
   },
   "devDependencies": {
