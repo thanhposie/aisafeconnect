@@ -6,6 +6,8 @@
 const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
 const bannedModel = require('../models/bannedModel');
+const { recordFailedAttempt, resetAttempts } = require('../middleware/bruteForce');
+
 
 // POST /api/register
 async function register(req, res) {
@@ -71,6 +73,7 @@ async function login(req, res) {
 
     const match = await bcrypt.compare(password, user.passwordHash);
     if (!match) {
+      recordFailedAttempt(req);
       return res.status(401).json({ error: 'Mật khẩu không chính xác.' });
     }
 
@@ -78,6 +81,9 @@ async function login(req, res) {
     if (banned) {
       return res.status(403).json({ error: 'Tài khoản của bạn đã bị khóa bởi hệ thống quản trị.' });
     }
+
+    // Đăng nhập thành công → reset bộ đếm brute-force
+    resetAttempts(req);
 
     req.session.user = {
       id: user.id, username: user.username, nickname: user.nickname,

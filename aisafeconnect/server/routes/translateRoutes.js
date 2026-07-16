@@ -6,7 +6,10 @@
 const express = require('express');
 const router = express.Router();
 const translateController = require('../controllers/translateController');
+const { translateLimiter } = require('../middleware/rateLimiter');
 
-router.post('/', translateController.translate);
+// translateLimiter: max 30 req/phút — fix ERR-04
+router.post('/', translateLimiter, translateController.translate);
 
 module.exports = router;
+

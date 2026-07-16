@@ -5,7 +5,7 @@
  *  Model      → models/       (userModel, videoModel, incidentModel, bannedModel)
  *  Controller → controllers/  (authController, adminController, forumController, ...)
  *  View/Router→ routes/       (authRoutes, adminRoutes, forumRoutes, ...)
- *  Middleware → middleware/   (auth.js)
+ *  Middleware → middleware/   (auth.js, rateLimiter.js, bruteForce.js)
  *  Realtime   → socket/       (socketHandler.js)
  */
 
@@ -32,8 +32,10 @@ const profileRoutes   = require('./routes/profileRoutes');
 const walletRoutes    = require('./routes/walletRoutes');
 const translateRoutes = require('./routes/translateRoutes');
 
-// ── Debug/Status routes (inline vì chỉ phục vụ mục đích debug) ───────────────
+// ── Debug/Status routes (inline vì chỉ phục vụ mục đích debug) ─────────────────
 const { getDbClient, getDbStatus } = require('./db');
+const { apiLimiter } = require('./middleware/rateLimiter');
+const { getBruteForceStatus } = require('./middleware/bruteForce');
 
 // ── App Setup ─────────────────────────────────────────────────────────────────
 const app = express();
@@ -54,7 +56,8 @@ if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
 
-// ── API Routes ────────────────────────────────────────────────────────────────
+// ── API Routes (với Rate Limiter tổng thể) ─────────────────────────────────────────
+app.use('/api', apiLimiter);   // Áp dụng cho toàn bộ /api/*
 app.use('/api', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/forum', forumRoutes);
@@ -65,7 +68,14 @@ app.use('/api/translate', translateRoutes);
 // Serve uploaded files
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// ── Debug / Status Endpoints ──────────────────────────────────────────────────
+// ── Debug / Status Endpoints ────────────────────────────────────────────────────
+app.get('/api/security-status', (req, res) => {
+  res.json({
+    bruteForce: getBruteForceStatus(),
+    note: 'Chỉ dùng để debug. Cần bảo vệ bằng requireAdmin trước khi dùng production.'
+  });
+});
+
 app.get('/api/db-status', async (req, res) => {
   try {
     const status = getDbStatus();

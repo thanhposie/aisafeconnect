@@ -6,10 +6,17 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const { authLimiter } = require('../middleware/rateLimiter');
+const { checkBruteForce } = require('../middleware/bruteForce');
 
-router.post('/register', authController.register);
-router.post('/login', authController.login);
+// Rate limit cho cả register và login
+router.post('/register', authLimiter, authController.register);
+
+// Brute-force check chạy TRƯỚC khi vào controller login
+router.post('/login', authLimiter, checkBruteForce, authController.login);
+
 router.post('/logout', authController.logout);
 router.get('/session', authController.getSession);
 
 module.exports = router;
+
