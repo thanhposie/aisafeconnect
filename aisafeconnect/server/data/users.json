@@ -1,0 +1,106 @@
+[
+  {
+    "id": "u-1784143178839",
+    "username": "testuser_1784143178511",
+    "nickname": "UpdatedName",
+    "passwordHash": "$2b$10$fQdflEOY9N0duPsD6HisR.uz/kNb5PoHfEfwAH3mf9vmEzG3B5ZA2",
+    "role": "user",
+    "age": 25,
+    "gender": "Nam",
+    "location": "HCM",
+    "interests": [
+      "Âm nhạc",
+      "Ngoại ngữ"
+    ],
+    "purpose": "Kết bạn mới",
+    "verified": false,
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=UpdatedName",
+    "coinBalance": 150,
+    "transactionHistory": [
+      {
+        "id": "tx-1784143179213",
+        "timestamp": "02:19:39 16/7/2026",
+        "amount": 50,
+        "desc": "Test nạp xu"
+      }
+    ]
+  },
+  {
+    "id": "u-1784143197379",
+    "username": "testuser_1784143197267",
+    "nickname": "UpdatedName",
+    "passwordHash": "$2b$10$cLzIJuZBsyLaN82VgXOJu.JASee8rz71.uJOV4xh8x/1ntCFT2E6.",
+    "role": "user",
+    "age": 25,
+    "gender": "Nam",
+    "location": "HCM",
+    "interests": [
+      "Âm nhạc",
+      "Ngoại ngữ"
+    ],
+    "purpose": "Kết bạn mới",
+    "verified": false,
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=UpdatedName",
+    "coinBalance": 150,
+    "transactionHistory": [
+      {
+        "id": "tx-1784143197729",
+        "timestamp": "02:19:57 16/7/2026",
+        "amount": 50,
+        "desc": "Test nạp xu"
+      }
+    ]
+  },
+  {
+    "id": "u-1784146001310",
+    "username": "tc_1784146001195",
+    "nickname": "Tester",
+    "passwordHash": "$2b$10$Wv5Vuzn46W3t/hGdOYHEAe.i1RAWy50qs1Y0fd.DfHB/w1cxw2mHi",
+    "role": "user",
+    "age": 22,
+    "gender": "Nam",
+    "location": "HCM",
+    "interests": [
+      "Âm nhạc",
+      "Ngoại ngữ"
+    ],
+    "purpose": "Kết bạn mới",
+    "verified": false,
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Tester",
+    "coinBalance": 150,
+    "transactionHistory": [
+      {
+        "id": "tx-1784146002166",
+        "timestamp": "03:06:42 16/7/2026",
+        "amount": 50,
+        "desc": "Test nạp"
+      }
+    ]
+  },
+  {
+    "id": "u-1784146461515",
+    "username": "tc_1784146461403",
+    "nickname": "Tester",
+    "passwordHash": "$2b$10$DmYf96makYExQlSr3u8E5O2HkRsanZs7Fz80tvNqw.4A3lvAqd0pq",
+    "role": "user",
+    "age": 22,
+    "gender": "Nam",
+    "location": "HCM",
+    "interests": [
+      "Âm nhạc",
+      "Ngoại ngữ"
+    ],
+    "purpose": "Kết bạn mới",
+    "verified": false,
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Tester",
+    "coinBalance": 150,
+    "transactionHistory": [
+      {
+        "id": "tx-1784146462316",
+        "timestamp": "03:14:22 16/7/2026",
+        "amount": 50,
+        "desc": "Test nạp"
+      }
+    ]
+  }
+]

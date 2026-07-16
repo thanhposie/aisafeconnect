@@ -1,0 +1,54 @@
+/**
+ * Model: Video Forum (MVC - Model Layer)
+ * Xử lý toàn bộ thao tác dữ liệu liên quan đến Video diễn đàn
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const VIDEOS_FILE = path.join(__dirname, '../data/videos.json');
+
+const DEFAULT_MOCK_VIDEOS = [
+  {id:1,author:'Minh Tuấn',seed:'MinhTuan',topic:'Âm nhạc',title:'Cover guitar acoustic "Nơi này có anh" 🎸',desc:'#guitar #acoustic #cover',duration:'0:32',likes:1240,comments:89,views:'12.4K',g:'linear-gradient(to bottom,#1a1a2e,#ec4899 120%)', distance: 1.5},
+  {id:2,author:'Linh Cute',seed:'LinhCute',topic:'Du lịch',title:'Sapa mùa lúa chín vàng óng ✨',desc:'#sapa #dulich #vietnam',duration:'0:28',likes:3821,comments:241,views:'38.2K',g:'linear-gradient(to bottom,#134e4a,#10b981 120%)', distance: 3.2},
+  {id:3,author:'TechVN',seed:'TechVN99',topic:'Công nghệ',title:'iPhone 17 Pro: AI Camera siêu đỉnh! 📱',desc:'#iphone #review #congnghe',duration:'0:45',likes:5640,comments:432,views:'54.6K',g:'linear-gradient(to bottom,#1e1b4b,#6366f1 120%)'},
+  {id:4,author:'Chef Hương',seed:'ChefHuong',topic:'Ẩm thực',title:'Bún bò Huế chuẩn vị miền Trung 🍜',desc:'#bunbo #amthuc #cooking',duration:'0:58',likes:7823,comments:615,views:'89.1K',g:'linear-gradient(to bottom,#431407,#f97316 120%)', distance: 0.8},
+  {id:5,author:'An Khỏe',seed:'AnKhoe',topic:'Thể thao',title:'Workout 20 phút burn mỡ tại nhà 💪',desc:'#workout #fitness #gym',duration:'0:41',likes:4231,comments:287,views:'41.3K',g:'linear-gradient(to bottom,#0c1445,#3b82f6 120%)'},
+  {id:6,author:'Cinephile',seed:'Cinephile',topic:'Điện ảnh',title:'Top 5 phim Việt hay nhất 2025 🎬',desc:'#phim #diehanh #cinema',duration:'0:52',likes:2987,comments:198,views:'29.9K',g:'linear-gradient(to bottom,#450a0a,#ef4444 120%)'},
+  {id:7,author:'Nhi Vlog',seed:'NhiVlog',topic:'Vlog',title:'Một ngày của mình ở Hội An ☀️',desc:'#vlog #hoian #travel',duration:'0:37',likes:1892,comments:143,views:'18.9K',g:'linear-gradient(to bottom,#1c1917,#d97706 120%)', distance: 4.5},
+  {id:8,author:'Học TA',seed:'HocTA',topic:'Giáo dục',title:'IELTS 8.0: Bí kíp Speaking ⚡',desc:'#ielts #tienganh #hoctap',duration:'0:55',likes:9123,comments:821,views:'91.2K',g:'linear-gradient(to bottom,#0f172a,#8b5cf6 120%)'}
+];
+
+function ensureVideosFile() {
+  if (!fs.existsSync(VIDEOS_FILE)) {
+    fs.writeFileSync(VIDEOS_FILE, JSON.stringify(DEFAULT_MOCK_VIDEOS, null, 2), 'utf8');
+  }
+}
+
+async function getAll() {
+  ensureVideosFile();
+  const data = fs.readFileSync(VIDEOS_FILE, 'utf8');
+  return JSON.parse(data || '[]');
+}
+
+async function saveAll(videos) {
+  fs.writeFileSync(VIDEOS_FILE, JSON.stringify(videos, null, 2), 'utf8');
+}
+
+async function create(videoData) {
+  const videos = await getAll();
+  videos.unshift(videoData);
+  await saveAll(videos);
+  return videoData;
+}
+
+async function deleteById(videoId) {
+  const videos = await getAll();
+  const exists = videos.some(v => v.id == videoId);
+  if (!exists) return false;
+  const updated = videos.filter(v => v.id != videoId);
+  await saveAll(updated);
+  return true;
+}
+
+module.exports = { getAll, saveAll, create, deleteById, DEFAULT_MOCK_VIDEOS };

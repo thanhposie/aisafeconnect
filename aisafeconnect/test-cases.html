@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Kịch bản kiểm thử - AiSafeConnect</title>
+<style>
+body { font-family: Arial, sans-serif; font-size: 12px; margin: 20px; }
+h2 { text-align: center; }
+.summary-table { width: 60%; border-collapse: collapse; margin-bottom: 20px; }
+.summary-table td, .summary-table th { border: 1px solid #000; padding: 6px 10px; }
+.summary-table tr:nth-child(even) { background: #e8f5e9; }
+.main-table { width: 100%; border-collapse: collapse; }
+.main-table th { background: #00b0f0; color: #000; border: 1px solid #000; padding: 6px; text-align: center; }
+.main-table td { border: 1px solid #000; padding: 6px; vertical-align: top; }
+.module-row td { background: #ffff00; font-weight: bold; }
+.pass { background: #c6efce; }
+.fail { background: #ffc7ce; }
+.pending { background: #ffeb9c; }
+.error-section { margin-top: 30px; }
+.error-table { width: 100%; border-collapse: collapse; }
+.error-table th { background: #ff0000; color: white; padding: 6px; border: 1px solid #000; }
+.error-table td { border: 1px solid #000; padding: 6px; vertical-align: top; }
+.fix { background: #c6efce; }
+ul { margin: 4px 0; padding-left: 16px; }
+</style>
+</head>
+<body>
+<h2>KỊCH BẢN KIỂM THỬ HỆ THỐNG TỔNG HỢP</h2>
+
+<table class="summary-table">
+  <tr><td><b>Tên dự án</b></td><td>AiSafeConnect - Anonymous Video Chat</td></tr>
+  <tr><td><b>Mã trường hợp kiểm thử</b></td><td>SC</td></tr>
+  <tr><td><b>Số TCKT đạt (P)</b></td><td>12</td></tr>
+  <tr><td><b>Số TCKT không đạt (F)</b></td><td>5</td></tr>
+  <tr><td><b>Số TCKT đang xem xét (PE)</b></td><td>2</td></tr>
+  <tr><td><b>Số TCKT chưa thực hiện</b></td><td>3</td></tr>
+  <tr><td><b>Tổng số TCKT</b></td><td>22</td></tr>
+</table>
+
+<table class="main-table">
+  <thead>
+    <tr>
+      <th rowspan="2" style="width:7%">Mã TCKT</th>
+      <th rowspan="2" style="width:13%">Mục đích kiểm thử</th>
+      <th rowspan="2" style="width:20%">Các bước thực hiện</th>
+      <th rowspan="2" style="width:20%">Kết quả mong muốn</th>
+      <th colspan="3" style="width:12%">Trình duyệt/Console</th>
+      <th rowspan="2" style="width:13%">Kết quả hiện tại</th>
+      <th rowspan="2" style="width:7%">Mã lỗi</th>
+      <th rowspan="2" style="width:8%">Ghi chú</th>
+    </tr>
+    <tr>
+      <th>Lần 1</th><th>Lần 2</th><th>Lần 3</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- MODULE 1 -->
+    <tr class="module-row"><td colspan="10">MODULE 1: Xác thực &amp; Quản lý Tài khoản (AUTH)</td></tr>
+
+    <tr>
+      <td>TC-SC-01</td>
+      <td>Đăng ký tài khoản hợp lệ</td>
+      <td><ul><li>Mở trang /register</li><li>Nhập username, nickname, password hợp lệ</li><li>Bấm Đăng ký</li></ul></td>
+      <td>Hệ thống báo đăng ký thành công, tự chuyển sang trang Login.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Đăng ký thành công, redirect đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-02</td>
+      <td>Đăng ký trùng username</td>
+      <td><ul><li>Nhập username đã tồn tại</li><li>Bấm Đăng ký</li></ul></td>
+      <td>Hiển thị thông báo lỗi "Tên đăng nhập đã tồn tại".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ API trả 400 + thông báo lỗi đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-03</td>
+      <td>Đăng nhập hợp lệ</td>
+      <td><ul><li>Mở trang /login</li><li>Nhập đúng username/password</li><li>Bấm Đăng nhập</li></ul></td>
+      <td>Chuyển vào trang Home, hiển thị tên người dùng.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Login OK, session được lưu.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-04</td>
+      <td>Đăng nhập sai mật khẩu</td>
+      <td><ul><li>Nhập đúng username, sai password</li><li>Bấm Đăng nhập</li></ul></td>
+      <td>Hiển thị "Mật khẩu không chính xác".</td>
+      <td class="fail">F</td><td class="fail">F</td><td class="pass">P</td>
+      <td>❌ Lần 1&amp;2: Form bị xóa trắng nhưng không hiện thông báo lỗi rõ ràng.</td>
+      <td>ERR-01</td><td>Đã fix lần 3</td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-05</td>
+      <td>Tài khoản bị ban đăng nhập</td>
+      <td><ul><li>Admin ban user X</li><li>User X thử đăng nhập</li></ul></td>
+      <td>Hiển thị "Tài khoản bị khóa bởi hệ thống".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Server trả 403 đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-06</td>
+      <td>Session Gate - truy cập khi chưa login</td>
+      <td><ul><li>Chưa đăng nhập</li><li>Truy cập thẳng URL /chat hoặc /profile</li></ul></td>
+      <td>Tự động redirect về trang Login.</td>
+      <td class="fail">F</td><td class="fail">F</td><td class="fail">F</td>
+      <td>❌ Trang /chat load được mà không cần login. Frontend chưa có route guard.</td>
+      <td>ERR-02</td><td>Cần fix</td>
+    </tr>
+
+    <!-- MODULE 2 -->
+    <tr class="module-row"><td colspan="10">MODULE 2: Video Chat (WebRTC + Socket.IO)</td></tr>
+
+    <tr>
+      <td>TC-SC-07</td>
+      <td>Vào hàng đợi 1-1</td>
+      <td><ul><li>Login với 2 tài khoản khác nhau (2 tab)</li><li>Cả 2 bấm "Tìm người chat"</li></ul></td>
+      <td>Server ghép đôi, cả 2 nhận được sự kiện match-found.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Matchmaking hoạt động tốt trong cùng máy.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-08</td>
+      <td>Mutual Approval - cả 2 đồng ý</td>
+      <td><ul><li>Sau khi match, cả 2 bấm "Đồng ý"</li></ul></td>
+      <td>Kết nối WebRTC được thiết lập, video/audio bật.</td>
+      <td class="pending">PE</td><td class="pending">PE</td><td class="pending">PE</td>
+      <td>⚠️ Cần thiết bị thật để test camera/micro. Chưa test được trên CI.</td>
+      <td></td><td>Cần thiết bị thật</td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-09</td>
+      <td>Mutual Approval - 1 người từ chối</td>
+      <td><ul><li>Sau match, 1 người bấm "Từ chối"</li></ul></td>
+      <td>Cả 2 nhận match-failed, quay lại trạng thái chờ.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Server emit match-failed đúng cho cả 2 bên.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-10</td>
+      <td>Approval timeout 15 giây</td>
+      <td><ul><li>Sau match, không ai bấm gì cả</li><li>Chờ 15 giây</li></ul></td>
+      <td>Server tự huỷ match, emit match-failed với reason "timeout".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ setTimeout hoạt động đúng 15s.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-11</td>
+      <td>Ngắt kết nối giữa cuộc gọi</td>
+      <td><ul><li>Đang video call, tắt mạng hoặc đóng tab</li></ul></td>
+      <td>Người còn lại nhận partner-disconnected, thoát phòng.</td>
+      <td class="fail">F</td><td class="pass">P</td><td class="pass">P</td>
+      <td>❌ Lần 1: UI bị đứng, không hiện thông báo partner offline. Lần 2 trở đi OK.</td>
+      <td>ERR-03</td><td>Race condition fix</td>
+    </tr>
+
+    <!-- MODULE 3 -->
+    <tr class="module-row"><td colspan="10">MODULE 3: AI Dịch thuật</td></tr>
+
+    <tr>
+      <td>TC-SC-12</td>
+      <td>Dịch văn bản hợp lệ</td>
+      <td><ul><li>Gọi POST /api/translate</li><li>Body: {text: "Hello", targetLang: "vi"}</li></ul></td>
+      <td>Trả về {translatedText: "Xin chào"}.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Fallback Google Translate hoạt động.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-13</td>
+      <td>Thiếu tham số bắt buộc</td>
+      <td><ul><li>Gọi POST /api/translate</li><li>Body: {text: "Hello"} (thiếu targetLang)</li></ul></td>
+      <td>Trả 400: "Missing text or targetLang".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Validation đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-14</td>
+      <td>Google API Rate Limit</td>
+      <td><ul><li>Gửi liên tiếp 100 request dịch thuật</li></ul></td>
+      <td>Server fallback sang endpoint dự phòng, không crash.</td>
+      <td class="fail">F</td><td class="fail">F</td><td class="fail">F</td>
+      <td>❌ Server trả 502 sau ~50 request liên tiếp. Chưa có rate limiting phía server.</td>
+      <td>ERR-04</td><td>Cần thêm rate limit middleware</td>
+    </tr>
+
+    <!-- MODULE 4 -->
+    <tr class="module-row"><td colspan="10">MODULE 4: Quản lý Admin</td></tr>
+
+    <tr>
+      <td>TC-SC-15</td>
+      <td>Ban user vi phạm</td>
+      <td><ul><li>Login admin</li><li>POST /api/admin/ban {username: "user1"}</li></ul></td>
+      <td>user1 bị thêm vào danh sách ban, incidents bị xóa.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Ban thành công.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-16</td>
+      <td>Non-admin gọi admin API</td>
+      <td><ul><li>Login user thường</li><li>Gọi GET /api/admin/incidents</li></ul></td>
+      <td>Trả 403: "Chỉ Quản trị viên mới được thực hiện".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Middleware requireAdmin hoạt động đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-17</td>
+      <td>Xóa video diễn đàn</td>
+      <td><ul><li>Admin POST /api/admin/delete-video {videoId: 1}</li></ul></td>
+      <td>Video bị xóa khỏi danh sách diễn đàn.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Xóa đúng video theo ID.</td>
+      <td></td><td></td>
+    </tr>
+
+    <!-- MODULE 5 -->
+    <tr class="module-row"><td colspan="10">MODULE 5: Hồ sơ &amp; Ví xu</td></tr>
+
+    <tr>
+      <td>TC-SC-18</td>
+      <td>Cập nhật hồ sơ cá nhân</td>
+      <td><ul><li>PUT /api/profile</li><li>Body: {nickname: "NewName", age: 25}</li></ul></td>
+      <td>Hồ sơ được cập nhật, session refresh.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Update đúng, avatar tự đổi theo nickname mới.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-19</td>
+      <td>Đổi mật khẩu sai mật khẩu cũ</td>
+      <td><ul><li>PUT /api/profile/password</li><li>currentPassword sai</li></ul></td>
+      <td>Trả 401: "Mật khẩu hiện tại không chính xác".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ bcrypt.compare hoạt động đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-20</td>
+      <td>Cộng xu vào ví</td>
+      <td><ul><li>POST /api/wallet/update-balance</li><li>{amount: 50, description: "Nạp xu"}</li></ul></td>
+      <td>Số dư tăng 50, lịch sử giao dịch ghi nhận.</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ coinBalance và transactionHistory cập nhật đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-21</td>
+      <td>Trừ xu khi số dư không đủ</td>
+      <td><ul><li>POST /api/wallet/update-balance {amount: -9999}</li></ul></td>
+      <td>Trả 400: "Số dư xu không đủ".</td>
+      <td class="pass">P</td><td class="pass">P</td><td class="pass">P</td>
+      <td>✅ Validation âm đúng.</td>
+      <td></td><td></td>
+    </tr>
+
+    <tr>
+      <td>TC-SC-22</td>
+      <td>Upload video diễn đàn</td>
+      <td><ul><li>POST /api/forum/upload với file .mp4</li><li>title, topic hợp lệ</li></ul></td>
+      <td>Video được lưu vào /uploads, xuất hiện trong danh sách.</td>
+      <td class="fail">F</td><td class="pass">P</td><td class="pass">P</td>
+      <td>❌ Lần 1: Upload file &gt;50MB bị lỗi CORS trước khi đến multer. Lần 2 test file nhỏ thì OK.</td>
+      <td>ERR-05</td><td>Cần cấu hình CORS header cho multipart</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- ERROR LIST -->
+<div class="error-section">
+  <h3>📋 DANH SÁCH LỖI TÌM THẤY &amp; CÁCH FIX</h3>
+  <table class="error-table">
+    <thead>
+      <tr>
+        <th>Mã lỗi</th>
+        <th>TC liên quan</th>
+        <th>Mô tả lỗi</th>
+        <th>Nguyên nhân</th>
+        <th>Cách fix</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>ERR-01</b></td>
+        <td>TC-SC-04</td>
+        <td>Form bị xóa trắng khi đăng nhập sai nhưng không hiển thị thông báo lỗi.</td>
+        <td>State lỗi chưa được set trong catch block của Login.tsx.</td>
+        <td class="fix"><b>Fix:</b> Thêm <code>setError(err.response?.data?.error)</code> trong catch block của hàm handleSubmit ở Login.tsx.</td>
+        <td>✅ Đã fix</td>
+      </tr>
+      <tr>
+        <td><b>ERR-02</b></td>
+        <td>TC-SC-06</td>
+        <td>Trang /chat và /profile có thể truy cập mà không cần đăng nhập.</td>
+        <td>Frontend chưa implement Route Guard / PrivateRoute.</td>
+        <td class="fix"><b>Fix:</b> Tạo component <code>ProtectedRoute</code> trong <code>src/routes/index.tsx</code>. Wrap các route cần auth bằng <code>&lt;ProtectedRoute&gt;</code>, redirect về /login nếu chưa có session.</td>
+        <td>🔧 Chưa fix</td>
+      </tr>
+      <tr>
+        <td><b>ERR-03</b></td>
+        <td>TC-SC-11</td>
+        <td>Khi partner ngắt kết nối đột ngột, UI VideoChat bị đứng, không hiện thông báo.</td>
+        <td>Event <code>partner-disconnected</code> từ Socket.IO chưa được lắng nghe trong VideoChat.tsx.</td>
+        <td class="fix"><b>Fix:</b> Trong VideoChat.tsx thêm:<br><code>socket.on('partner-disconnected', () =&gt; { setStatus('disconnected'); toast.error('Đối phương đã ngắt kết nối'); })</code></td>
+        <td>✅ Đã fix (Lần 2+)</td>
+      </tr>
+      <tr>
+        <td><b>ERR-04</b></td>
+        <td>TC-SC-14</td>
+        <td>Server trả 502 khi gọi /api/translate liên tục do Google rate limit.</td>
+        <td>Không có rate limiting phía server cho endpoint translate.</td>
+        <td class="fix"><b>Fix:</b> Cài <code>express-rate-limit</code>, thêm middleware:<br><code>app.use('/api/translate', rateLimit({ windowMs: 60000, max: 30 }))</code></td>
+        <td>🔧 Chưa fix</td>
+      </tr>
+      <tr>
+        <td><b>ERR-05</b></td>
+        <td>TC-SC-22</td>
+        <td>Upload file lớn (&gt;50MB) bị lỗi CORS trước khi đến multer middleware.</td>
+        <td>CORS config thiếu header <code>Content-Type: multipart/form-data</code> cho preflight request lớn.</td>
+        <td class="fix"><b>Fix:</b> Cập nhật CORS config:<br><code>app.use(cors({ origin: '*', allowedHeaders: ['Content-Type', 'Authorization'] }))</code><br>Và tăng timeout cho các upload lớn.</td>
+        <td>🔧 Chưa fix</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+<p><i>Tài liệu kiểm thử - AiSafeConnect v1.0 | Ngày: 16/07/2026</i></p>
+</body>
+</html>
